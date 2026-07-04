@@ -6,139 +6,142 @@
 
 ---@type LazySpec
 return {
+  {
+    "folke/trouble.nvim",
+    opts = {},
+    cmd = "Trouble",
+    keys = {
+      { "<Leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics" },
+      { "<Leader>xq", "<cmd>Trouble quickfix toggle<cr>", desc = "Quickfix" },
+    },
+  },
 
-  {"mhinz/vim-signify",},
+  { "mhinz/vim-signify", init = function() vim.g.signify_vcs_list = { "svn", "git" } end },
   -- todo
   {
-  "folke/todo-comments.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  opts = {
-    -- your configuration comes here
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      -- your configuration comes here
       signs = true,
-       keywords = {
-    FIX = {
-      icon = " ", -- icon used for the sign, and in search results
-      color = "error", -- can be a hex color, or a named color (see below)
-      alt = { "FIXME", "BUG", "FIXIT", "ISSUE", "END"  }, -- a set of other keywords that all map to this FIX keywords
-      -- signs = false, -- configure signs for some keywords individually
+      keywords = {
+        FIX = {
+          icon = " ", -- icon used for the sign, and in search results
+          color = "error", -- can be a hex color, or a named color (see below)
+          alt = { "FIXME", "BUG", "FIXIT", "ISSUE", "END" }, -- a set of other keywords that all map to this FIX keywords
+          -- signs = false, -- configure signs for some keywords individually
+        },
+        TODO = { icon = " ", color = "info" },
+        HACK = { icon = " ", alt = { "START" } },
+        WARN = { icon = " ", color = "warning", alt = { "WARNING" } },
+        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+        TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      },
     },
-    TODO = { icon = " ", color = "info" },
-    HACK = { icon = " ", alt = {"START"} },
-    WARN = { icon = " ", color = "warning", alt = { "WARNING", } },
-    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
-    TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
   },
-  }
-}
-  ,
-{
-  "sphamba/smear-cursor.nvim",
-  opts = {
+  {
+    "sphamba/smear-cursor.nvim",
+    opts = {
       -- Smear cursor color. Defaults to Cursor GUI color if not set.
-    -- Set to "none" to match the text color at the target cursor position.
-    cursor_color = "#ff8800",
+      -- Set to "none" to match the text color at the target cursor position.
+      cursor_color = "#ff8800",
       -- Smear cursor when switching buffers or windows.
-    smear_between_buffers = true,
+      smear_between_buffers = true,
 
-    -- Smear cursor when moving within line or to neighbor lines.
-    -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
-    smear_between_neighbor_lines = true,
+      -- Smear cursor when moving within line or to neighbor lines.
+      -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
+      smear_between_neighbor_lines = true,
 
-    -- Draw the smear in buffer space instead of screen space when scrolling
-    scroll_buffer_space = true,
+      -- Draw the smear in buffer space instead of screen space when scrolling
+      scroll_buffer_space = true,
 
-    -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
-    -- Smears will blend better on all backgrounds.
-    legacy_computing_symbols_support = false,
+      -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
+      -- Smears will blend better on all backgrounds.
+      legacy_computing_symbols_support = false,
 
-    -- Smear cursor in insert mode.
-    -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
-    smear_insert_mode = true,
+      -- Smear cursor in insert mode.
+      -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
+      smear_insert_mode = true,
     },
-},
-{
+  },
+  {
     "kylechui/nvim-surround",
     version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
-    end
-},
-  {
-  "ThePrimeagen/harpoon",
-  branch = "harpoon2",
-  opts = {
-    menu = {
-      width = vim.api.nvim_win_get_width(0) - 4,
-    },
-    settings = {
-      save_on_toggle = true,
-    },
+      require("nvim-surround").setup {
+        -- Configuration here, or leave empty to use defaults
+      }
+    end,
   },
-  keys = function()
-    local keys = {
-        {"<Leader>h", desc = 'harpoon2', silent = true },
-      {
-        "<Leader>ha",
-        function()
-          require("harpoon"):list():add()
-        end,
-        desc = "add item", silent = true
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    opts = {
+      menu = {
+        width = vim.api.nvim_win_get_width(0) - 4,
       },
-      {
-        "<Leader>hl",
-        function()
-          local harpoon = require("harpoon")
-          harpoon.ui:toggle_quick_menu(harpoon:list())
-        end,
-        desc = "quick menu",silent = true
+      settings = {
+        save_on_toggle = true,
       },
+    },
+    keys = function()
+      local keys = {
+        { "<Leader>h", desc = "harpoon2", silent = true },
+        {
+          "<Leader>ha",
+          function() require("harpoon"):list():add() end,
+          desc = "add item",
+          silent = true,
+        },
+        {
+          "<Leader>hl",
+          function()
+            local harpoon = require "harpoon"
+            harpoon.ui:toggle_quick_menu(harpoon:list())
+          end,
+          desc = "quick menu",
+          silent = true,
+        },
         {
           "<Leader>hn",
-        function()
-          require("harpoon"):list():next()
-          end,
-          desc = "next item", silent = true         },
+          function() require("harpoon"):list():next() end,
+          desc = "next item",
+          silent = true,
+        },
         {
           "<Leader>hv",
-        function()
-          require("harpoon"):list():prev()
-          end,
-          desc = "prev item", silent = true
-        }
+          function() require("harpoon"):list():prev() end,
+          desc = "prev item",
+          silent = true,
+        },
+      }
 
-    }
-
-    for i = 1, 5 do
-      table.insert(keys, {
-        "<Leader>h" .. i,
-        function()
-          require("harpoon"):list():select(i)
-        end,
-        desc = "item" .. i,silent = true
-      })
-    end
-    return keys
-  end,
-},
-	{
-		"akinsho/toggleterm.nvim",
-		version = "*",
-		config = function()
-			require("toggleterm").setup({
-				size = 10,
-				shell = 'bash',
-				direction = "horizontal", -- 'float', --"horizontal",
-				start_in_insert = true,
-				-- hide_numbers = true, -- hide the number column in toggleterm buffers
-			})
-		end,
-	},
-
-
+      for i = 1, 5 do
+        table.insert(keys, {
+          "<Leader>h" .. i,
+          function() require("harpoon"):list():select(i) end,
+          desc = "item" .. i,
+          silent = true,
+        })
+      end
+      return keys
+    end,
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = function()
+      require("toggleterm").setup {
+        size = 10,
+        shell = "bash",
+        direction = "horizontal", -- 'float', --"horizontal",
+        start_in_insert = true,
+        -- hide_numbers = true, -- hide the number column in toggleterm buffers
+      }
+    end,
+  },
 }
 
 -- ---@type LazySpec
