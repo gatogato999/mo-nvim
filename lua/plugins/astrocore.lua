@@ -14,10 +14,10 @@ return {
       event = "FileType",
       pattern = "*",
       desc = "disable comment continuatoin on newline",
-      callback = function()
-        vim.opt_local.formatoptions:remove { "r", "o" }
-        -- vim.cmd [[autocmd FileType * set formatoptions-=ro]],
-      end,
+      -- callback = function()
+      --   vim.opt_local.formatoptions:remove { "r", "o" }
+      --   -- vim.cmd [[autocmd FileType * set formatoptions-=ro]],
+      -- end,
     },
     -- Configure core features of AstroNvim
     features = {
