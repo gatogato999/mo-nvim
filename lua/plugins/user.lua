@@ -11,7 +11,12 @@ return {
     opts = {},
     cmd = "Trouble",
     keys = {
-      { "<Leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics" },
+      { "<Leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics" },
+      {
+        "<Leader>xx",
+        "<cmd>Trouble diagnostics toggle filter.severity=1<cr>",
+        desc = "Diagnostics (errors only)",
+      },
       { "<Leader>xq", "<cmd>Trouble quickfix toggle<cr>", desc = "Quickfix" },
     },
   },
